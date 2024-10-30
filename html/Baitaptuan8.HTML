@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Đăng Ký</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        [class*=col-] {
+            padding: 0px;
+            margin: 0px;
+        }
+        
+        nav ul li {
+            width: 150px;
+        }
+        
+        #form {
+            width: 200px;
+        }
+        
+        button {
+            position: relative;
+            left: 20px;
+            width: 45%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <img src="../img/YBL_Banner_Web_1920x670_swim_butterfly_01.jpg" alt="" srcset="Hình ảnh" width="100%">
+            </div>
+        </div>
+        <div class="row">
+            <nav class="navbar navbar-expand">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="#" class="nav-link">Trang chủ</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" id="registerBtn">Đăng ký</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Trợ giúp</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerModalLabel">THÔNG TIN THANH TOÁN</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registrationForm">
+                            <div class="form-group">
+                                <label for="studentId">Mã Học Viên</label>
+                                <input type="text" class="form-control" id="studentId" placeholder="123456789" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fullName">Họ và Tên</label>
+                                <input type="text" class="form-control" id="fullName" placeholder="Tran Thu Trang" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="trantrang@iuh.edu.vn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="service">Dịch Vụ</label>
+                                <select class="form-control" id="service">
+                                    <option value="2000">Bơi</option>
+                                    <option value="3000">Trượt ván</option>
+                                    <option value="5000">Moto nước</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Đồ Dùng</label><br>
+                                <input type="checkbox" class="accessory" value="50000"> Áo quần bơi - 20000<br>
+                                <input type="checkbox" class="accessory" value="30000"> Pháo - 50000 <br>
+                                <input type="checkbox" class="accessory" value="20000"> Kính bơi - 70000
+                            </div>
+                            <div class="form-group">
+                                <label for="totalPrice">Tổng Tiền</label>
+                                <input type="text" class="form-control" id="totalPrice" readonly>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="submitBtn" style="background-color: green;">Thanh toán</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                        </form>
+                        <div class="modal-footer">
+                            <h5>Trang Thanh Toán</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Table -->
+
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Mã học viên</th>
+                    <th scope="col">Họ tên</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Tiền dịch vụ</th>
+                    <th scope="col">Tiền đồ dùng</th>
+                    <th scope="col">Tổng tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>123456789</td>
+                    <td>Trần Anh</td>
+                    <td>hongquan@iuh.edu.vn</td>
+                    <td>30000</td>
+                    <td>10000</td>
+                    <td>40000</td>
+                </tr>
+            </tbody>
+        </table>
+        </thead>
+        <tbody id="registrationTable">
+        </tbody>
+        </table>
+        <div class="row">
+            <div class="col-4 col-sm-4">
+                <h6>Mã sinh viên: 22654831</h6>
+            </div>
+            <div class="col-4 col-sm-4">
+                <h6>Họ tên: Nguyễn Triệu Ngọc Tâm</h6>
+            </div>
+            <div class="col-4 col-sm-4">
+                <h6>Phòng thi:______</h6>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script>
+        $(document).ready(function() {
+            $('#registerBtn').click(function() {
+                $('#registerModal').modal('show');
+            });
+
+            $('#service, .accessory').change(function() {
+                let servicePrice = parseInt($('#service').val());
+                let accessoriesTotal = 0;
+                $('.accessory:checked').each(function() {
+                    accessoriesTotal += parseInt($(this).val());
+                });
+                $('#totalPrice').val(servicePrice + accessoriesTotal);
+            });
+
+            $('#submitBtn').click(function() {
+                let studentId = $('#studentId').val();
+                let fullName = $('#fullName').val();
+                let email = $('#email').val();
+                let servicePrice = $('#service option:selected').text();
+                let total = $('#totalPrice').val();
+
+                // Validate mã học viên
+                let studentIdPattern = /^[1-9]{9}$/;
+                if (!studentIdPattern.test(studentId)) {
+                    alert('Mã học viên không hợp lệ.');
+                    return;
+                }
+
+                // Validate họ tên
+                let namePattern = /^[A-Z][a-z]+\s[A-Z][a-z]+$/;
+                if (!namePattern.test(fullName)) {
+                    alert('Họ và tên không hợp lệ.');
+                    return;
+                }
+
+                // Validate email
+                let emailPattern = /^[\w.+-]+@iuh\.edu\.vn$/;
+                if (!emailPattern.test(email)) {
+                    alert('Email không hợp lệ.');
+                    return;
+                }
+
+                let accessories = [];
+                $('.accessory:checked').each(function() {
+                    accessories.push($(this).next().text());
+                });
+
+                $('#registrationTable').append(
+                    `<tr>
+                        <td>${studentId}</td>
+                        <td>${fullName}</td>
+                        <td>${email}</td>
+                        <td>${servicePrice}</td>
+                        <td>${accessories.join(', ')}</td>
+                        <td>${total}</td>
+                    </tr>`
+                );
+
+                $('#registerModal').modal('hide');
+                $('#registrationForm')[0].reset();
+                $('#totalPrice').val('');
+            });
+        });
+    </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
